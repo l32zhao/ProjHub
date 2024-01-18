@@ -22,8 +22,7 @@ Once you have ProjHub running, you can use the platform to perform the following
 * Browse projects shared by other users.
 * Share your own projects by creating detailed project profiles.
 * Search for projects based on keywords, tags, or other relevant criteria.
-* Collaborate with other users by joining their projects or inviting them to join yours.
-* Receive email notifications for important events and stay updated.
+* Leave comments on project profiles to engage in discussions and provide feedback.
 
 ## Technologies Used
 The following technologies and frameworks were used in the development of ProjHub:

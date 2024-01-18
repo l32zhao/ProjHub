@@ -44,6 +44,7 @@ def createProject(request):
             project.save()
             return redirect('account') # redirect to user
         else:
+            print('Error!')
             print(form.errors) 
         
     context = {'form': form}

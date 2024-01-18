@@ -13,7 +13,7 @@ class ProjectForm(ModelForm):
         }
     
     def __init__(self, *args, **kwargs):
-        super(ProjectForm, self).__init__()
+        super(ProjectForm, self).__init__(*args, **kwargs)
         
         
         for name, field in self.fields.items(): # Style

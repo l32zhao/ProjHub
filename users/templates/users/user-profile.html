@@ -9,7 +9,7 @@
             <div class="column column--1of3">
                 <div class="card text-center">
                     <div class="card__body dev">
-                        <img class="avatar avatar--xl" src="{{ profile.profile_image.url }}" />
+                        <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
                         <h2 class="dev__name">{{profile.name}}</h2>
                         <p class="dev__title">{{profile.short_intro}}</p>
                         <p class="dev__location">Based in {{profile.location}}</p>
@@ -18,36 +18,36 @@
                             {% if profile.social_github %}
                             <li>
                                 <a title="Github" href="{{profile.social_github}}" target="_blank"><i
-                                        class="fa fa-github" style="font-size:24px"></i></a>
+                                        class="im im-github"></i></a>
                             </li>
                             {% endif %}
 
 
-                            {% if True %}
+                            {% if profile.social_twitter %}
                             <li>
                                 <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i
-                                        class="fa fa-twitter" style="font-size:24px"></i></a>
+                                        class="im im-twitter"></i></a>
                             </li>
                             {% endif %}
 
-                            {% if True %}
+                            {% if profile.social_linkedin %}
                             <li>
                                 <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i
-                                        class="fa fa-linkedin" style="font-size:24px"></i></a>
+                                        class="im im-linkedin"></i></a>
                             </li>
                             {% endif %}
 
-                            {% if True %}
+                            {% if profile.social_website %}
                             <li>
                                 <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i
-                                        class="fa fa-globe" style="font-size:24px"></i></a>
+                                        class="im im-globe"></i></a>
                             </li>
                             {% endif %}
 
                         </ul>
-                        {% comment %} {% if request.user.profile.id != profile.id %}
+                        {% if request.user.profile.id != profile.id %}
                         <a href="{% url 'create-message' profile.id %}" class="btn btn--sub btn--lg">Send Message </a>
-                        {% endif %} {% endcomment %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -57,10 +57,9 @@
                     <p class="devInfo__about">{{profile.bio}}</p>
                 </div>
                 <div class="devInfo">
-                    {% if topSkills or otherSkills %}
                     <h3 class="devInfo__title">Skills</h3>
                     <div class="devInfo__skills">
-                        
+
                         {% for skill in topSkills %}
                         <div class="devSkill">
                             <h4 class="devSkill__title">{{skill.name}}</h4>
@@ -68,7 +67,8 @@
                         </div>
                         {% endfor %}
 
-                        {% if otherSkills %}
+
+
                         <h3 class="devInfo__subtitle">Other Skills</h3>
                         <div class="devInfo__otherSkills">
 
@@ -79,19 +79,16 @@
                             {% endfor %}
 
                         </div>
-                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
-
                 <div class="devInfo">
-                    <h3 class="devInfo__title">Personal Projects</h3>
+                    <h3 class="devInfo__title">Projects</h3>
                     <div class="grid grid--two">
                         {% for project in profile.project_set.all %}
                         <div class="column">
                             <div class="card project">
                                 <a href="{% url 'project' project.id %}" class="project">
-                                    <img class="project__thumbnail" src="{{project.featured_image.url}}"
+                                    <img class="project__thumbnail" src="{{project.imageURL}}"
                                         alt="project thumbnail" />
                                     <div class="card__body">
                                         <h3 class="project__title">{{project.title}}</h3>

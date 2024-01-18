@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+<html>
 
-<html lang="en">
 <head>
-    {% comment %} <meta charset="UTF-8">
-    
-    <title>DevSearch</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type='text/css' media='screen' href="{% static "styles/main.css" %}"> {% endcomment %}
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,43 +10,27 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <!-- Icon - IconMonster -->
-    {% comment %} <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" /> {% endcomment %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
     <!-- Mumble UI -->
     <link rel="stylesheet" href="{% static 'uikit/styles/uikit.css' %}" />
     <!-- Dev Search UI -->
     <link rel="stylesheet" href="{% static 'styles/app.css' %}" />
 
     <title>DevSearch - Connect with Developers!</title>
-    <style>
-        .alert-container {
-            position: relative;
-        }
 
-        .alert {
-            position: fixed;
-            top: 15%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            {% comment %} background-color: white; {% endcomment %}
-            padding: 20px;
-            {% comment %} text-align: center; {% endcomment %}
-        }
-    </style>
 </head>
+
 <body>
-    {% comment %} <h1>This is the main  template</h1> {% endcomment %}
     {% include 'navbar.html' %}
 
-    
-    {% comment %} {% if messages %}
+
+    <!-- {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
     </ul>
-    {% endif %}  {% endcomment %}
+    {% endif %} -->
 
     {% if messages %}
 
@@ -60,10 +39,12 @@
         <p class="alert__message">{{message}}</p>
         <button class="alert__close">x</button>
     </div>
+
     {% endfor %}
 
     {% endif %}
-    
+
+
     {% block content %}
 
     {% endblock content %}

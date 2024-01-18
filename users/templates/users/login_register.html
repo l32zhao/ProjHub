@@ -23,12 +23,12 @@
                 <label for="formInput#text">{{field.label}}</label>
                 {{field}}
 
-                {% comment %} {% if field.help_text %}
-                    <small>{{field.help_text}}</small>
-                {% endif %} {% endcomment %}
+                <!-- {% if field.help_text %}
+                <small>{{field.help_text}}</small>
+                {% endif %} -->
 
                 {% for error in field.errors %}
-                    <p style="color: red;">{{error}}</p>
+                <p style="color: red;">{{error}}</p>
                 {% endfor %}
 
             </div>
@@ -62,7 +62,7 @@
             <p>Hello Developer, Welcome Back!</p>
         </div>
 
-        <form action="{% url 'login' %}" method="POST" class="form auth__form">
+        <form action="" method="POST" class="form auth__form">
             {% csrf_token %}
             <!-- Input:Username -->
             <div class="form__field">
@@ -80,7 +80,7 @@
 
             <div class="auth__actions">
                 <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
-                <a href="">Forget Password?</a>
+                <a href="{% url 'reset_password' %}">Forget Password?</a>
             </div>
         </form>
 

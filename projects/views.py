@@ -1,81 +1,91 @@
+from django.core import paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Project, Tag
+from .forms import ProjectForm, ReviewForm
+from .utils import searchProjects, paginateProjects
 
-from .models import *
-from .forms import *
-from .utils import *
 
-# Create your views here.
-
-def projects(request):  # A view
-    # return HttpResponse('Here are our products.')
-    # page = "PROJECTS"
-    # number = 10
-    # context = {'page':page, 'number':number}
-    # return render(request, 'projects/projects.html', context)
-    
-    # Search
+def projects(request):
     projects, search_query = searchProjects(request)
-    # projects = Project.objects.all()
+    custom_range, projects = paginateProjects(request, projects, 6)
+
     context = {'projects': projects,
-               'search_query':search_query}
+               'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'projects/projects.html', context)
 
 
-def project(request, pk):  # A view
-    # return HttpResponse('Single project: '+pk)
+def project(request, pk):
     projectObj = Project.objects.get(id=pk)
-    return render(request, 'projects/single-project.html', {'project': projectObj})
-    
+    form = ReviewForm()
 
-# CRUD
-@login_required(login_url="login")  # Authentication
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = projectObj
+        review.owner = request.user.profile
+        review.save()
+
+        projectObj.getVoteCount
+
+        messages.success(request, 'Your review was successfully submitted!')
+        return redirect('project', pk=projectObj.id)
+
+    return render(request, 'projects/single-project.html', {'project': projectObj, 'form': form})
+
+
+@login_required(login_url="login")
 def createProject(request):
     profile = request.user.profile
-    form = ProjectForm()    # Init project fields
-    
+    form = ProjectForm()
+
     if request.method == 'POST':
-        # print(request.POST)
+        newtags = request.POST.get('newtags').replace(',',  " ").split()
         form = ProjectForm(request.POST, request.FILES)
-        if form.is_valid(): # Check valid
+        if form.is_valid():
             project = form.save(commit=False)
-            project.owner = profile     # One to many relationship
+            project.owner = profile
             project.save()
-            return redirect('account') # redirect to user
-        else:
-            print('Error!')
-            print(form.errors) 
-        
+
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+            return redirect('account')
+
     context = {'form': form}
     return render(request, "projects/project_form.html", context)
 
 
 @login_required(login_url="login")
-def updateProject(request, pk): # need a primary key
+def updateProject(request, pk):
     profile = request.user.profile
     project = profile.project_set.get(id=pk)
     form = ProjectForm(instance=project)
-    
+
     if request.method == 'POST':
+        newtags = request.POST.get('newtags').replace(',',  " ").split()
+
         form = ProjectForm(request.POST, request.FILES, instance=project)
-        if form.is_valid(): # Check valid
-            form.save()
-            return redirect('account') # redirect to user
-        
-    context = {'form': form}
+        if form.is_valid():
+            project = form.save()
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+
+            return redirect('account')
+
+    context = {'form': form, 'project': project}
     return render(request, "projects/project_form.html", context)
 
+
 @login_required(login_url="login")
-def deleteProject(request, pk): # need a primary key
+def deleteProject(request, pk):
     profile = request.user.profile
     project = profile.project_set.get(id=pk)
-    
     if request.method == 'POST':
         project.delete()
-        return redirect('account')
-    
-    # context is a object
+        return redirect('projects')
     context = {'object': project}
-    
-    return render(request, "delete_template.html", context)
+    return render(request, 'delete_template.html', context)

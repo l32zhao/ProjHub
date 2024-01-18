@@ -2,44 +2,8 @@
 {% block content %}
 
 
-{% comment %} <h1>Project Form</h1>
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    {% for field in form %}
-    <p>{{field.label}}</p>
-    {{field}}
-    {% endfor %}
-    {{form.as_p}}
-    <input type="submit">
-</form> {% endcomment %}
-
 
 <!-- Main Section -->
-<main class="formPage my-xl">
-    <div class="content-box">
-        <div class="formWrapper">
-            <a class="backButton" href="{% url 'account' %}"><i class="im im-angle-left"></i></a>
-            <br>
-
-            <form class="form" method="POST">
-                {% csrf_token %}
-
-                {% for field in form %}
-                <!-- Input:Text -->
-                <div class="form__field">
-                    <label for="formInput#text">{{field.label}} </label>
-                    {{field}}
-                </div>
-                {% endfor %}
-
-                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
-            </form>
-        </div>
-    </div>
-</main>
-
-{% comment %} <!-- Main Section -->
 <main class="formPage my-xl">
     <div class="content-box">
         <div class="formWrapper">
@@ -72,7 +36,7 @@
             </form>
         </div>
     </div>
-</main> {% endcomment %}
+</main>
 
 
 {% endblock %}
